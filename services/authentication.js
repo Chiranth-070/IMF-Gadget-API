@@ -17,4 +17,4 @@ function validateToken(token) {
   return payload;
 }
 
-module.exports = { printjwtSecret };
+module.exports = { createToken, validateToken };

@@ -1,13 +1,14 @@
 const express = require("express");
 require("dotenv").config();
-const { printjwtSecret } = require("./utils/authentication");
+const userRoutes = require("./routes/user");
+const gadgetRoutes = require("./routes/gadget");
 
 const app = express();
-app.get("/", (req, res) => {
-  printjwtSecret();
-  res.send("Hello, World!");
-});
+app.use(express.json());
+app.use("/user", userRoutes);
+app.use("/gadget", gadgetRoutes);
 
-app.listen(3000, () => {
-  console.log("Server is running on http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

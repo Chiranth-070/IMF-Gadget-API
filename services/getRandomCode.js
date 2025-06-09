@@ -43,7 +43,7 @@ function getRandomCode() {
   const randomAdjective =
     adjectives[Math.floor(Math.random() * adjectives.length)];
   const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
-  const randomCode = `${randomAdjective}${randomNoun}`;
+  const randomCode = `${randomAdjective}${" "}${randomNoun}`;
   return randomCode;
 }
 
