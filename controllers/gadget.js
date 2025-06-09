@@ -52,7 +52,7 @@ async function createGadget(req, res) {
       },
     });
 
-    if (gadgetExists.status === "Decommissioned") {
+    if (gadgetExists && gadgetExists.status === "Decommissioned") {
       await prisma.gadget.update({
         where: { id: gadgetExists.id },
         data: { status: "Available" },
