@@ -2,10 +2,18 @@ const getRandomCode = require("../services/getRandomCode");
 const prisma = require("../services/db");
 async function getAllGadgets(req, res) {
   try {
+    const { status } = req.query;
+
+    const whereClause = {
+      userId: req.user.id,
+    };
+
+    // bonus question
+    if (status) {
+      whereClause.status = status;
+    }
     const gadgets = await prisma.gadget.findMany({
-      where: {
-        userId: req.user.id,
-      },
+      where: whereClause,
       select: {
         id: true,
         name: true,
@@ -153,9 +161,30 @@ async function deleteGadget(req, res) {
   }
 }
 
+async function selfDestruct(req, res) {
+  try {
+    const { id } = req.params;
+
+    const gadget = await prisma.gadget.findUnique({
+      where: { id: id, userId: req.user.id },
+    });
+
+    if (!gadget) {
+      return res.status(404).json({ error: "Gadget not found." });
+    }
+
+    const confirmationCode = Math.random().toString(36).substring(2, 8);
+
+    res.status(200).json({ confirmation_code: confirmationCode });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to self-destruct gadget." });
+  }
+}
+
 module.exports = {
   getAllGadgets,
   createGadget,
   updateGadget,
   deleteGadget,
+  selfDestruct,
 };
