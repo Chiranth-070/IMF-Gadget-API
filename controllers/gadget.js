@@ -128,7 +128,7 @@ async function updateGadget(req, res) {
         id: updatedGadget.id,
         name: updatedGadget.name,
         codename: updatedGadget.codename,
-        userId: updatedGadget.userId,
+        status: updatedGadget.status,
       },
     });
   } catch (error) {
